@@ -292,7 +292,7 @@ export class Game {
     const { black, white } = GameLogic.countPieces(this.grid);
     this.scoreEl.textContent = `⚫ ${black} : ${white} ⚪`;
 
-    this.statusEl.className = 'text-center text-gray-900 text-lg font-bold min-h-12 bg-gradient-to-r from-amber-100 to-amber-200 px-8 py-3 rounded-2xl shadow-lg border-2 border-amber-400';
+    this.statusEl.className = 'text-center text-white text-base font-medium min-h-10 bg-emerald-600/90 px-6 py-2 rounded-full shadow-lg';
 
     const validMoves = GameLogic.getValidMoves(this.grid, this.currentPlayer);
 
