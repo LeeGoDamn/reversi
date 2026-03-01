@@ -7,10 +7,10 @@ h1 { color: white !important; }
 #score { color: white !important; }
 #status { color: white !important; }
 
-/* 按钮样式 - 使用具体的颜色值 */
+/* 按钮样式 */
 #resetBtn {
   color: white !important;
-  background: #2563eb !important; /* blue-600 */
+  background: #2563eb !important;
   border: none !important;
   padding: 0.75rem 1.75rem !important;
   border-radius: 9999px !important;
@@ -20,13 +20,13 @@ h1 { color: white !important; }
 }
 
 #resetBtn:hover {
-  background: #3b82f6 !important; /* blue-500 */
+  background: #3b82f6 !important;
   transform: scale(1.05);
 }
 
 #undoBtn {
   color: white !important;
-  background: #d97706 !important; /* amber-600 */
+  background: #d97706 !important;
   border: none !important;
   padding: 0.75rem 1.75rem !important;
   border-radius: 9999px !important;
@@ -36,7 +36,7 @@ h1 { color: white !important; }
 }
 
 #undoBtn:hover {
-  background: #f59e0b !important; /* amber-500 */
+  background: #f59e0b !important;
   transform: scale(1.05);
 }
 
@@ -44,6 +44,40 @@ h1 { color: white !important; }
   opacity: 0.3 !important;
   cursor: not-allowed !important;
   transform: none !important;
+}
+
+/* 弹窗卡片样式 */
+.modal-card {
+  animation: modalIn 0.25s ease-out;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 确认弹窗按钮 */
+#confirmNewGameBtn {
+  background: #e11d48 !important;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4) !important;
+}
+
+#confirmNewGameBtn:hover {
+  background: #f43f5e !important;
+}
+
+#cancelNewGameBtn {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+#cancelNewGameBtn:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
 }
 
 /* 自定义样式 */

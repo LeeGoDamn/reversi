@@ -34,23 +34,26 @@ app.innerHTML = `
 
     <!-- 菜单弹窗 -->
     <div id="menuModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-      <div class="bg-slate-800 rounded-2xl p-5 shadow-2xl border border-white/10 max-w-xs w-full mx-4">
-        <h3 class="text-lg font-bold text-white mb-4 text-center">设置</h3>
-        <div class="space-y-2">
-          <button id="switchColorBtn" class="w-full px-5 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-medium rounded-xl transition-all">切换执子</button>
-          <button id="closeMenuBtn" class="w-full px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white/70 font-medium rounded-xl transition-all">关闭</button>
+      <div class="modal-card bg-gradient-to-b from-slate-700 to-slate-800 rounded-3xl p-6 shadow-2xl border border-white/20 max-w-xs w-full mx-4">
+        <h3 class="text-xl font-bold text-white mb-5 text-center">⚙️ 设置</h3>
+        <div class="space-y-3">
+          <button id="switchColorBtn" class="w-full px-5 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">🎨 切换执子</button>
+          <button id="closeMenuBtn" class="w-full px-5 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-2xl transition-all">关闭</button>
         </div>
       </div>
     </div>
 
     <!-- 确认弹窗 -->
     <div id="confirmModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-      <div class="bg-slate-800 rounded-2xl p-5 shadow-2xl border border-white/10 max-w-xs w-full mx-4">
-        <h3 class="text-lg font-bold text-white mb-1 text-center">确认新游戏？</h3>
-        <p class="text-white/50 text-sm text-center mb-4">当前棋局将被重置</p>
-        <div class="flex gap-2">
-          <button id="cancelNewGameBtn" class="flex-1 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white/70 font-medium rounded-xl transition-all">取消</button>
-          <button id="confirmNewGameBtn" class="flex-1 px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-medium rounded-xl transition-all">确认</button>
+      <div class="modal-card bg-gradient-to-b from-slate-700 to-slate-800 rounded-3xl p-6 shadow-2xl border border-white/20 max-w-sm w-full mx-4">
+        <div class="text-center mb-5">
+          <div class="text-4xl mb-3">⚠️</div>
+          <h3 class="text-xl font-bold text-white mb-2">确认新游戏？</h3>
+          <p class="text-white/60 text-sm">当前棋局将被重置</p>
+        </div>
+        <div class="flex gap-3">
+          <button id="cancelNewGameBtn" class="flex-1 px-5 py-3 bg-white/15 hover:bg-white/25 text-white font-medium rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]">取消</button>
+          <button id="confirmNewGameBtn" class="flex-1 px-5 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">确认</button>
         </div>
       </div>
     </div>
