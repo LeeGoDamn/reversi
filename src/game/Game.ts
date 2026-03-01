@@ -10,6 +10,7 @@ export class Game {
   private lastMove: Position | null;
   private gameStarted: boolean;
   private playerColor: Player;
+  private hoverPos: Position | null;
 
   private board: Board;
   private canvas: HTMLCanvasElement;
@@ -33,9 +34,10 @@ export class Game {
     this.currentPlayer = Player.Black;
     this.gameOver = false;
     this.lastMove = null;
-    this.gameStarted = true; // 默认开始游戏
-    this.playerColor = Player.Black; // 默认玩家执黑先手
+    this.gameStarted = true;
+    this.playerColor = Player.Black;
     this.moveHistory = [];
+    this.hoverPos = null;
 
     this.board = new Board('gameCanvas');
     this.canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
@@ -63,23 +65,19 @@ export class Game {
   }
 
   private bindEvents(): void {
-    // 菜单按钮
     this.menuBtn.addEventListener('click', () => this.showMenu());
     this.closeMenuBtn.addEventListener('click', () => this.hideMenu());
     this.menuModal.addEventListener('click', (e) => {
       if (e.target === this.menuModal) this.hideMenu();
     });
 
-    // 切换执子
     this.switchColorBtn.addEventListener('click', () => {
       this.hideMenu();
       this.switchColor();
     });
 
-    // 新游戏（显示确认弹窗）
     this.resetBtn.addEventListener('click', () => this.showConfirmModal());
 
-    // 确认弹窗
     this.cancelNewGameBtn.addEventListener('click', () => this.hideConfirmModal());
     this.confirmModal.addEventListener('click', (e) => {
       if (e.target === this.confirmModal) this.hideConfirmModal();
@@ -89,10 +87,31 @@ export class Game {
       this.reset();
     });
 
-    // 悔棋
     this.undoBtn.addEventListener('click', () => this.undo());
 
-    // 点击落子
+    // 鼠标移动 - 悬停预览
+    this.canvas.addEventListener('mousemove', (e) => {
+      if (!this.gameStarted || this.gameOver || this.currentPlayer !== this.playerColor) return;
+
+      const pos = this.board.getPositionFromEvent(e);
+      if (pos && GameLogic.isValidMove(this.grid, pos.x, pos.y, this.playerColor)) {
+        if (!this.hoverPos || this.hoverPos.x !== pos.x || this.hoverPos.y !== pos.y) {
+          this.hoverPos = pos;
+          this.render();
+        }
+      } else if (this.hoverPos) {
+        this.hoverPos = null;
+        this.render();
+      }
+    });
+
+    this.canvas.addEventListener('mouseleave', () => {
+      if (this.hoverPos) {
+        this.hoverPos = null;
+        this.render();
+      }
+    });
+
     this.canvas.addEventListener('click', (e) => {
       if (!this.gameStarted || this.gameOver || this.currentPlayer !== this.playerColor) return;
 
@@ -105,7 +124,6 @@ export class Game {
 
   private showMenu(): void {
     this.menuModal.classList.remove('hidden');
-    // 游戏进行中禁用切换按钮
     if (this.gameStarted && !this.gameOver && this.moveHistory.length > 1) {
       this.switchColorBtn.disabled = true;
       this.switchColorBtn.classList.add('opacity-40', 'cursor-not-allowed');
@@ -140,7 +158,6 @@ export class Game {
     this.updateStatus();
     this.render();
 
-    // 如果切换后轮到 AI，AI 下棋
     if (this.currentPlayer !== this.playerColor) {
       setTimeout(() => this.aiMove(), 300);
     }
@@ -158,6 +175,7 @@ export class Game {
     this.lastMove = null;
     this.gameStarted = true;
     this.moveHistory = [this.grid.map(row => [...row])];
+    this.hoverPos = null;
 
     const aiColor = this.playerColor === Player.Black ? Player.White : Player.Black;
     this.ai = new AI(this.grid, aiColor);
@@ -166,7 +184,6 @@ export class Game {
     this.updateStatus();
     this.render();
 
-    // 如果玩家执白，AI 先手
     if (this.playerColor === Player.White) {
       setTimeout(() => this.aiMove(), 500);
     }
@@ -176,6 +193,7 @@ export class Game {
     this.moveHistory.push(this.grid.map(row => [...row]));
     this.grid = GameLogic.makeMove(this.grid, x, y, player);
     this.lastMove = { x, y };
+    this.hoverPos = null;
 
     this.render();
 
@@ -239,6 +257,7 @@ export class Game {
     this.lastMove = null;
     this.currentPlayer = this.playerColor;
     this.gameOver = false;
+    this.hoverPos = null;
 
     this.ai.updateBoard(this.grid);
     this.updateStatus();
@@ -296,6 +315,11 @@ export class Game {
       : [];
 
     this.board.draw(this.grid, validMoves, this.lastMove || undefined);
+
+    // 绘制悬停预览
+    if (this.hoverPos && this.gameStarted && !this.gameOver && this.currentPlayer === this.playerColor) {
+      this.board.drawHover(this.hoverPos.x, this.hoverPos.y, this.playerColor);
+    }
 
     const { black, white } = GameLogic.countPieces(this.grid);
     this.scoreEl.textContent = `⚫ ${black} : ${white} ⚪`;

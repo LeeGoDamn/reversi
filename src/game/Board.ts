@@ -22,11 +22,9 @@ export class Board {
   private drawBoard(): void {
     const ctx = this.ctx;
 
-    // 深绿色背景
     ctx.fillStyle = '#1a472a';
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // 网格线
     ctx.strokeStyle = '#2d5a3d';
     ctx.lineWidth = 1;
 
@@ -42,7 +40,6 @@ export class Board {
       ctx.stroke();
     }
 
-    // 四个星位点
     const starPoints = [2, 6];
     ctx.fillStyle = '#2d5a3d';
     for (const x of starPoints) {
@@ -65,13 +62,11 @@ export class Board {
       const centerX = PADDING + move.x * CELL_SIZE + CELL_SIZE / 2;
       const centerY = PADDING + move.y * CELL_SIZE + CELL_SIZE / 2;
 
-      // 外圈光晕
       ctx.fillStyle = 'rgba(251, 191, 36, 0.25)';
       ctx.beginPath();
       ctx.arc(centerX, centerY, CELL_SIZE / 3, 0, Math.PI * 2);
       ctx.fill();
 
-      // 内圈
       ctx.fillStyle = 'rgba(251, 191, 36, 0.7)';
       ctx.beginPath();
       ctx.arc(centerX, centerY, CELL_SIZE / 5, 0, Math.PI * 2);
@@ -96,13 +91,11 @@ export class Board {
 
     const ctx = this.ctx;
     
-    // 阴影
     ctx.beginPath();
     ctx.arc(centerX + 2, centerY + 2, radius, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.fill();
 
-    // 棋子
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
 
@@ -124,12 +117,10 @@ export class Board {
     ctx.fillStyle = gradient;
     ctx.fill();
     
-    // 边框
     ctx.strokeStyle = player === Player.Black ? '#1a1a1a' : '#a0a0a0';
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // 高光
     ctx.beginPath();
     ctx.arc(centerX - radius * 0.25, centerY - radius * 0.25, radius * 0.2, 0, Math.PI * 2);
     ctx.fillStyle = player === Player.Black ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.5)';
@@ -143,7 +134,7 @@ export class Board {
     this.ctx.strokeStyle = '#ef4444';
     this.ctx.lineWidth = 3;
     this.ctx.beginPath();
-    this.ctx.arc(centerX, centerY, CELL_SIZE / 2 - 4, 0, Math.PI * 2);
+    this.ctx.arc(centerX, centerY, CELL_SIZE / 2 - 6, 0, Math.PI * 2);
     this.ctx.stroke();
   }
 
@@ -152,18 +143,40 @@ export class Board {
     const centerY = PADDING + y * CELL_SIZE + CELL_SIZE / 2;
     const radius = CELL_SIZE / 2 - 8;
 
-    this.ctx.beginPath();
-    this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    const ctx = this.ctx;
     
+    // 绘制半透明的预览棋子
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+
+    const gradient = ctx.createRadialGradient(
+      centerX - radius * 0.3, centerY - radius * 0.3, 0,
+      centerX, centerY, radius
+    );
+
     if (player === Player.Black) {
-      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      gradient.addColorStop(0, 'rgba(74, 74, 74, 0.5)');
+      gradient.addColorStop(0.5, 'rgba(42, 42, 42, 0.5)');
+      gradient.addColorStop(1, 'rgba(10, 10, 10, 0.5)');
     } else {
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-      this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-      this.ctx.lineWidth = 1;
-      this.ctx.stroke();
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+      gradient.addColorStop(0.5, 'rgba(240, 240, 240, 0.6)');
+      gradient.addColorStop(1, 'rgba(208, 208, 208, 0.6)');
     }
-    this.ctx.fill();
+
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    
+    // 边框
+    ctx.strokeStyle = player === Player.Black ? 'rgba(26, 26, 26, 0.5)' : 'rgba(160, 160, 160, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 高光
+    ctx.beginPath();
+    ctx.arc(centerX - radius * 0.25, centerY - radius * 0.25, radius * 0.2, 0, Math.PI * 2);
+    ctx.fillStyle = player === Player.Black ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.3)';
+    ctx.fill();
   }
 
   getPositionFromEvent(e: MouseEvent): Position | null {
