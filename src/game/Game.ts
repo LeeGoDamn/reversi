@@ -112,7 +112,7 @@ export class Game {
     this.canvas.classList.remove('cursor-black', 'cursor-white');
 
     this.statusEl.textContent = '选择先后手';
-    this.statusEl.className = 'text-center text-slate-900 text-xl font-bold min-h-12 bg-amber-200 px-8 py-3 rounded-xl shadow-lg border-2 border-amber-400';
+    this.statusEl.className = 'text-center text-gray-900 text-lg font-bold min-h-12 bg-gradient-to-r from-amber-100 to-amber-200 px-8 py-3 rounded-2xl shadow-lg border-2 border-amber-400';
     this.render();
   }
 
@@ -210,13 +210,13 @@ export class Game {
 
     if (result === GameStatus.Draw) {
       this.statusEl.textContent = `🤝 平局！${black} : ${white}`;
-      this.statusEl.className = 'text-center text-xl font-bold min-h-12 bg-gray-300 text-gray-800 px-8 py-3 rounded-xl shadow-lg border-2 border-gray-400';
+      this.statusEl.className = 'text-center text-xl font-bold min-h-12 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-800 px-8 py-3 rounded-2xl shadow-lg border-2 border-gray-400';
     } else if (playerWins) {
       this.statusEl.textContent = `🎉 你赢了！${black} : ${white}`;
-      this.statusEl.className = 'text-center text-xl font-bold min-h-12 bg-green-400 text-green-900 px-8 py-3 rounded-xl shadow-lg border-2 border-green-500 animate-pulse';
+      this.statusEl.className = 'text-center text-xl font-bold min-h-12 bg-gradient-to-r from-emerald-400 to-green-500 text-white px-8 py-3 rounded-2xl shadow-lg border-2 border-emerald-500 animate-pulse';
     } else {
       this.statusEl.textContent = `💀 AI 赢了！${black} : ${white}`;
-      this.statusEl.className = 'text-center text-xl font-bold min-h-12 bg-red-400 text-red-900 px-8 py-3 rounded-xl shadow-lg border-2 border-red-500';
+      this.statusEl.className = 'text-center text-xl font-bold min-h-12 bg-gradient-to-r from-red-400 to-rose-500 text-white px-8 py-3 rounded-2xl shadow-lg border-2 border-red-500';
     }
   }
 
@@ -224,7 +224,7 @@ export class Game {
     const { black, white } = GameLogic.countPieces(this.grid);
     this.scoreEl.textContent = `⚫ ${black} : ${white} ⚪`;
 
-    this.statusEl.className = 'text-center text-slate-900 text-xl font-bold min-h-12 bg-amber-200 px-8 py-3 rounded-xl shadow-lg border-2 border-amber-400';
+    this.statusEl.className = 'text-center text-gray-900 text-lg font-bold min-h-12 bg-gradient-to-r from-amber-100 to-amber-200 px-8 py-3 rounded-2xl shadow-lg border-2 border-amber-400';
 
     const validMoves = GameLogic.getValidMoves(this.grid, this.currentPlayer);
     

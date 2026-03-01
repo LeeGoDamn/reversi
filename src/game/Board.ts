@@ -22,12 +22,12 @@ export class Board {
   private drawBoard(): void {
     const ctx = this.ctx;
 
-    // 绿色背景
-    ctx.fillStyle = '#228B22';
+    // 深绿色背景
+    ctx.fillStyle = '#1a472a';
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // 网格线
-    ctx.strokeStyle = '#1a6b1a';
+    ctx.strokeStyle = '#2d5a3d';
     ctx.lineWidth = 1;
 
     for (let i = 0; i <= BOARD_SIZE; i++) {
@@ -44,14 +44,14 @@ export class Board {
 
     // 四个星位点
     const starPoints = [2, 6];
-    ctx.fillStyle = '#1a6b1a';
+    ctx.fillStyle = '#2d5a3d';
     for (const x of starPoints) {
       for (const y of starPoints) {
         ctx.beginPath();
         ctx.arc(
           PADDING + x * CELL_SIZE,
           PADDING + y * CELL_SIZE,
-          4, 0, Math.PI * 2
+          5, 0, Math.PI * 2
         );
         ctx.fill();
       }
@@ -65,9 +65,16 @@ export class Board {
       const centerX = PADDING + move.x * CELL_SIZE + CELL_SIZE / 2;
       const centerY = PADDING + move.y * CELL_SIZE + CELL_SIZE / 2;
 
-      ctx.fillStyle = 'rgba(255, 255, 0, 0.3)';
+      // 外圈光晕
+      ctx.fillStyle = 'rgba(251, 191, 36, 0.25)';
       ctx.beginPath();
       ctx.arc(centerX, centerY, CELL_SIZE / 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 内圈
+      ctx.fillStyle = 'rgba(251, 191, 36, 0.7)';
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, CELL_SIZE / 5, 0, Math.PI * 2);
       ctx.fill();
     }
   }
@@ -85,48 +92,65 @@ export class Board {
   private drawPiece(x: number, y: number, player: Player): void {
     const centerX = PADDING + x * CELL_SIZE + CELL_SIZE / 2;
     const centerY = PADDING + y * CELL_SIZE + CELL_SIZE / 2;
-    const radius = CELL_SIZE / 2 - 4;
+    const radius = CELL_SIZE / 2 - 6;
 
-    this.ctx.beginPath();
-    this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    const ctx = this.ctx;
+    
+    // 阴影
+    ctx.beginPath();
+    ctx.arc(centerX + 2, centerY + 2, radius, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fill();
 
-    const gradient = this.ctx.createRadialGradient(
-      centerX - 5, centerY - 5, 0,
+    // 棋子
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+
+    const gradient = ctx.createRadialGradient(
+      centerX - radius * 0.3, centerY - radius * 0.3, 0,
       centerX, centerY, radius
     );
 
     if (player === Player.Black) {
-      gradient.addColorStop(0, '#555');
-      gradient.addColorStop(1, '#000');
+      gradient.addColorStop(0, '#4a4a4a');
+      gradient.addColorStop(0.5, '#2a2a2a');
+      gradient.addColorStop(1, '#0a0a0a');
     } else {
-      gradient.addColorStop(0, '#fff');
-      gradient.addColorStop(1, '#ccc');
+      gradient.addColorStop(0, '#ffffff');
+      gradient.addColorStop(0.5, '#f0f0f0');
+      gradient.addColorStop(1, '#d0d0d0');
     }
 
-    this.ctx.fillStyle = gradient;
-    this.ctx.fill();
+    ctx.fillStyle = gradient;
+    ctx.fill();
     
     // 边框
-    this.ctx.strokeStyle = player === Player.Black ? '#333' : '#999';
-    this.ctx.lineWidth = 1;
-    this.ctx.stroke();
+    ctx.strokeStyle = player === Player.Black ? '#1a1a1a' : '#a0a0a0';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 高光
+    ctx.beginPath();
+    ctx.arc(centerX - radius * 0.25, centerY - radius * 0.25, radius * 0.2, 0, Math.PI * 2);
+    ctx.fillStyle = player === Player.Black ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.5)';
+    ctx.fill();
   }
 
   private drawLastMoveMarker(pos: Position): void {
     const centerX = PADDING + pos.x * CELL_SIZE + CELL_SIZE / 2;
     const centerY = PADDING + pos.y * CELL_SIZE + CELL_SIZE / 2;
 
-    this.ctx.strokeStyle = '#ff0000';
+    this.ctx.strokeStyle = '#ef4444';
     this.ctx.lineWidth = 3;
     this.ctx.beginPath();
-    this.ctx.arc(centerX, centerY, CELL_SIZE / 2 - 2, 0, Math.PI * 2);
+    this.ctx.arc(centerX, centerY, CELL_SIZE / 2 - 4, 0, Math.PI * 2);
     this.ctx.stroke();
   }
 
   drawHover(x: number, y: number, player: Player): void {
     const centerX = PADDING + x * CELL_SIZE + CELL_SIZE / 2;
     const centerY = PADDING + y * CELL_SIZE + CELL_SIZE / 2;
-    const radius = CELL_SIZE / 2 - 4;
+    const radius = CELL_SIZE / 2 - 6;
 
     this.ctx.beginPath();
     this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
