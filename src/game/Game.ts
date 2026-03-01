@@ -17,8 +17,13 @@ export class Game {
   private scoreEl: HTMLElement;
   private undoBtn: HTMLButtonElement;
   private resetBtn: HTMLButtonElement;
-  private blackBtn: HTMLButtonElement;
-  private whiteBtn: HTMLButtonElement;
+  private menuBtn: HTMLButtonElement;
+  private menuModal: HTMLElement;
+  private closeMenuBtn: HTMLButtonElement;
+  private switchColorBtn: HTMLButtonElement;
+  private confirmModal: HTMLElement;
+  private cancelNewGameBtn: HTMLButtonElement;
+  private confirmNewGameBtn: HTMLButtonElement;
 
   private ai: AI;
   private moveHistory: Player[][][];
@@ -28,8 +33,8 @@ export class Game {
     this.currentPlayer = Player.Black;
     this.gameOver = false;
     this.lastMove = null;
-    this.gameStarted = false;
-    this.playerColor = Player.Black;
+    this.gameStarted = true; // 默认开始游戏
+    this.playerColor = Player.Black; // 默认玩家执黑先手
     this.moveHistory = [];
 
     this.board = new Board('gameCanvas');
@@ -38,22 +43,56 @@ export class Game {
     this.scoreEl = document.getElementById('score')!;
     this.undoBtn = document.getElementById('undoBtn') as HTMLButtonElement;
     this.resetBtn = document.getElementById('resetBtn') as HTMLButtonElement;
-    this.blackBtn = document.getElementById('blackBtn') as HTMLButtonElement;
-    this.whiteBtn = document.getElementById('whiteBtn') as HTMLButtonElement;
+    this.menuBtn = document.getElementById('menuBtn') as HTMLButtonElement;
+    this.menuModal = document.getElementById('menuModal')!;
+    this.closeMenuBtn = document.getElementById('closeMenuBtn') as HTMLButtonElement;
+    this.switchColorBtn = document.getElementById('switchColorBtn') as HTMLButtonElement;
+    this.confirmModal = document.getElementById('confirmModal')!;
+    this.cancelNewGameBtn = document.getElementById('cancelNewGameBtn') as HTMLButtonElement;
+    this.confirmNewGameBtn = document.getElementById('confirmNewGameBtn') as HTMLButtonElement;
 
     const aiColor = this.playerColor === Player.Black ? Player.White : Player.Black;
     this.ai = new AI(this.grid, aiColor);
 
+    this.moveHistory.push(this.grid.map(row => [...row]));
+
     this.bindEvents();
+    this.updateCursor();
+    this.updateStatus();
     this.render();
   }
 
   private bindEvents(): void {
-    this.blackBtn.addEventListener('click', () => this.startGame(Player.Black));
-    this.whiteBtn.addEventListener('click', () => this.startGame(Player.White));
-    this.resetBtn.addEventListener('click', () => this.reset());
+    // 菜单按钮
+    this.menuBtn.addEventListener('click', () => this.showMenu());
+    this.closeMenuBtn.addEventListener('click', () => this.hideMenu());
+    this.menuModal.addEventListener('click', (e) => {
+      if (e.target === this.menuModal) this.hideMenu();
+    });
+
+    // 切换执子
+    this.switchColorBtn.addEventListener('click', () => {
+      this.hideMenu();
+      this.switchColor();
+    });
+
+    // 新游戏（显示确认弹窗）
+    this.resetBtn.addEventListener('click', () => this.showConfirmModal());
+
+    // 确认弹窗
+    this.cancelNewGameBtn.addEventListener('click', () => this.hideConfirmModal());
+    this.confirmModal.addEventListener('click', (e) => {
+      if (e.target === this.confirmModal) this.hideConfirmModal();
+    });
+    this.confirmNewGameBtn.addEventListener('click', () => {
+      this.hideConfirmModal();
+      this.reset();
+    });
+
+    // 悔棋
     this.undoBtn.addEventListener('click', () => this.undo());
 
+    // 点击落子
     this.canvas.addEventListener('click', (e) => {
       if (!this.gameStarted || this.gameOver || this.currentPlayer !== this.playerColor) return;
 
@@ -64,30 +103,46 @@ export class Game {
     });
   }
 
-  private startGame(playerColor: Player): void {
-    this.playerColor = playerColor;
-    this.gameStarted = true;
-    this.grid = GameLogic.createInitialBoard();
-    this.moveHistory = [this.grid.map(row => [...row])];
-    this.gameOver = false;
-    this.lastMove = null;
-    this.currentPlayer = Player.Black;
+  private showMenu(): void {
+    this.menuModal.classList.remove('hidden');
+    // 游戏进行中禁用切换按钮
+    if (this.gameStarted && !this.gameOver && this.moveHistory.length > 1) {
+      this.switchColorBtn.disabled = true;
+      this.switchColorBtn.classList.add('opacity-40', 'cursor-not-allowed');
+      this.switchColorBtn.textContent = '🔄 游戏中无法切换';
+    } else {
+      this.switchColorBtn.disabled = false;
+      this.switchColorBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+      this.switchColorBtn.textContent = '🔄 切换执子';
+    }
+  }
 
-    const aiColor = playerColor === Player.Black ? Player.White : Player.Black;
+  private hideMenu(): void {
+    this.menuModal.classList.add('hidden');
+  }
+
+  private showConfirmModal(): void {
+    this.confirmModal.classList.remove('hidden');
+  }
+
+  private hideConfirmModal(): void {
+    this.confirmModal.classList.add('hidden');
+  }
+
+  private switchColor(): void {
+    if (this.gameStarted && !this.gameOver && this.moveHistory.length > 1) return;
+
+    this.playerColor = this.playerColor === Player.Black ? Player.White : Player.Black;
+    const aiColor = this.playerColor === Player.Black ? Player.White : Player.Black;
     this.ai = new AI(this.grid, aiColor);
-
-    this.blackBtn.classList.add('hidden');
-    this.whiteBtn.classList.add('hidden');
-    this.resetBtn.classList.remove('hidden');
-    this.undoBtn.classList.remove('hidden');
 
     this.updateCursor();
     this.updateStatus();
     this.render();
 
-    // 如果玩家执白，AI 先手
-    if (playerColor === Player.White) {
-      setTimeout(() => this.aiMove(), 500);
+    // 如果切换后轮到 AI，AI 下棋
+    if (this.currentPlayer !== this.playerColor) {
+      setTimeout(() => this.aiMove(), 300);
     }
   }
 
@@ -101,19 +156,20 @@ export class Game {
     this.currentPlayer = Player.Black;
     this.gameOver = false;
     this.lastMove = null;
-    this.gameStarted = false;
-    this.moveHistory = [];
+    this.gameStarted = true;
+    this.moveHistory = [this.grid.map(row => [...row])];
 
-    this.blackBtn.classList.remove('hidden');
-    this.whiteBtn.classList.remove('hidden');
-    this.resetBtn.classList.add('hidden');
-    this.undoBtn.classList.add('hidden');
+    const aiColor = this.playerColor === Player.Black ? Player.White : Player.Black;
+    this.ai = new AI(this.grid, aiColor);
 
-    this.canvas.classList.remove('cursor-black', 'cursor-white');
-
-    this.statusEl.textContent = '选择先后手';
-    this.statusEl.className = 'text-center text-gray-900 text-lg font-bold min-h-12 bg-gradient-to-r from-amber-100 to-amber-200 px-8 py-3 rounded-2xl shadow-lg border-2 border-amber-400';
+    this.updateCursor();
+    this.updateStatus();
     this.render();
+
+    // 如果玩家执白，AI 先手
+    if (this.playerColor === Player.White) {
+      setTimeout(() => this.aiMove(), 500);
+    }
   }
 
   private makeMove(x: number, y: number, player: Player): void {
@@ -123,28 +179,24 @@ export class Game {
 
     this.render();
 
-    // 检查游戏结束
     if (GameLogic.isGameOver(this.grid)) {
       this.endGame();
       return;
     }
 
-    // 切换玩家
     const nextPlayer = player === Player.Black ? Player.White : Player.Black;
-    
-    // 检查下一个玩家是否有有效移动
+
     if (GameLogic.hasValidMove(this.grid, nextPlayer)) {
       this.currentPlayer = nextPlayer;
     } else {
-      // 跳过，当前玩家继续
-      this.statusEl.textContent = nextPlayer === Player.Black 
-        ? '⚫ 黑棋无子可下，跳过' 
+      this.statusEl.textContent = nextPlayer === Player.Black
+        ? '⚫ 黑棋无子可下，跳过'
         : '⚪ 白棋无子可下，跳过';
       setTimeout(() => {
         this.currentPlayer = player;
         this.updateStatus();
         this.render();
-        
+
         if (this.currentPlayer !== this.playerColor) {
           setTimeout(() => this.aiMove(), 300);
         }
@@ -155,7 +207,6 @@ export class Game {
     this.updateStatus();
     this.render();
 
-    // AI 回合
     if (this.currentPlayer !== this.playerColor) {
       setTimeout(() => this.aiMove(), 300);
     }
@@ -170,7 +221,6 @@ export class Game {
     if (move) {
       this.makeMove(move.x, move.y, this.currentPlayer);
     } else {
-      // AI 无子可下
       const nextPlayer = this.currentPlayer === Player.Black ? Player.White : Player.Black;
       if (GameLogic.hasValidMove(this.grid, nextPlayer)) {
         this.currentPlayer = nextPlayer;
@@ -183,7 +233,6 @@ export class Game {
   private undo(): void {
     if (this.moveHistory.length < 3 || this.gameOver) return;
 
-    // 撤销两步（玩家 + AI）
     this.moveHistory.pop();
     this.moveHistory.pop();
     this.grid = this.moveHistory[this.moveHistory.length - 1].map(row => [...row]);
@@ -206,7 +255,7 @@ export class Game {
     else result = GameStatus.Draw;
 
     const playerWins = (result === GameStatus.BlackWin && this.playerColor === Player.Black) ||
-                       (result === GameStatus.WhiteWin && this.playerColor === Player.White);
+      (result === GameStatus.WhiteWin && this.playerColor === Player.White);
 
     if (result === GameStatus.Draw) {
       this.statusEl.textContent = `🤝 平局！${black} : ${white}`;
@@ -227,14 +276,14 @@ export class Game {
     this.statusEl.className = 'text-center text-gray-900 text-lg font-bold min-h-12 bg-gradient-to-r from-amber-100 to-amber-200 px-8 py-3 rounded-2xl shadow-lg border-2 border-amber-400';
 
     const validMoves = GameLogic.getValidMoves(this.grid, this.currentPlayer);
-    
+
     if (this.currentPlayer === this.playerColor) {
-      this.statusEl.textContent = this.playerColor === Player.Black 
-        ? `⚫ 轮到你了（可下 ${validMoves.length} 处）` 
+      this.statusEl.textContent = this.playerColor === Player.Black
+        ? `⚫ 轮到你了（可下 ${validMoves.length} 处）`
         : `⚪ 轮到你了（可下 ${validMoves.length} 处）`;
     } else {
-      this.statusEl.textContent = this.playerColor === Player.Black 
-        ? '⚪ AI 思考中...' 
+      this.statusEl.textContent = this.playerColor === Player.Black
+        ? '⚪ AI 思考中...'
         : '⚫ AI 思考中...';
     }
 
@@ -245,10 +294,9 @@ export class Game {
     const validMoves = this.gameStarted && !this.gameOver && this.currentPlayer === this.playerColor
       ? GameLogic.getValidMoves(this.grid, this.playerColor)
       : [];
-    
+
     this.board.draw(this.grid, validMoves, this.lastMove || undefined);
 
-    // 更新比分
     const { black, white } = GameLogic.countPieces(this.grid);
     this.scoreEl.textContent = `⚫ ${black} : ${white} ⚪`;
   }
