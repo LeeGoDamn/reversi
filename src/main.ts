@@ -33,8 +33,8 @@ app.innerHTML = `
     </div>
 
     <!-- 菜单弹窗 -->
-    <div id="menuModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-      <div class="modal-card rounded-3xl p-6 shadow-2xl border border-white/20 max-w-xs w-full mx-4" style="background: linear-gradient(180deg, #334155 0%, #1e293b 100%);">
+    <div id="menuModal" class="fixed inset-0 flex items-center justify-center z-50 hidden" style="background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px);">
+      <div class="modal-card border max-w-xs w-full mx-4" style="background: linear-gradient(180deg, #475569 0%, #334155 100%); border-radius: 24px; padding: 28px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15);">
         <h3 class="text-xl font-bold text-white mb-5 text-center">⚙️ 设置</h3>
         <div class="space-y-3">
           <button id="switchColorBtn" class="w-full px-5 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">🎨 切换执子</button>
@@ -44,16 +44,16 @@ app.innerHTML = `
     </div>
 
     <!-- 确认弹窗 -->
-    <div id="confirmModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-      <div class="modal-card rounded-3xl p-6 shadow-2xl border border-white/20 max-w-sm w-full mx-4" style="background: linear-gradient(180deg, #334155 0%, #1e293b 100%);">
-        <div class="text-center mb-5">
-          <div class="text-4xl mb-3">⚠️</div>
-          <h3 class="text-xl font-bold text-white mb-2">确认新游戏？</h3>
-          <p class="text-white/60 text-sm">当前棋局将被重置</p>
+    <div id="confirmModal" class="fixed inset-0 flex items-center justify-center z-50 hidden" style="background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px);">
+      <div class="modal-card border max-w-sm w-full mx-4" style="background: linear-gradient(180deg, #475569 0%, #334155 100%); border-radius: 24px; padding: 32px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15);">
+        <div class="text-center mb-6">
+          <div class="text-5xl mb-4">⚠️</div>
+          <h3 class="text-2xl font-bold text-white mb-2">确认新游戏？</h3>
+          <p class="text-white/60 text-base">当前棋局将被重置</p>
         </div>
-        <div class="flex gap-3">
-          <button id="cancelNewGameBtn" class="flex-1 px-5 py-3 bg-white/15 hover:bg-white/25 text-white font-medium rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]">取消</button>
-          <button id="confirmNewGameBtn" class="flex-1 px-5 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">确认</button>
+        <div class="flex gap-4">
+          <button id="cancelNewGameBtn" class="flex-1 px-6 py-3.5 bg-slate-600 hover:bg-slate-500 text-white font-medium rounded-2xl transition-all" style="background: rgba(100, 116, 139, 0.8);">取消</button>
+          <button id="confirmNewGameBtn" class="flex-1 px-6 py-3.5 text-white font-bold rounded-2xl transition-all shadow-lg" style="background: #e11d48;">确认</button>
         </div>
       </div>
     </div>
