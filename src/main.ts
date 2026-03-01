@@ -34,7 +34,7 @@ app.innerHTML = `
 
     <!-- 菜单弹窗 -->
     <div id="menuModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-      <div class="modal-card bg-gradient-to-b from-slate-700 to-slate-800 rounded-3xl p-6 shadow-2xl border border-white/20 max-w-xs w-full mx-4">
+      <div class="modal-card rounded-3xl p-6 shadow-2xl border border-white/20 max-w-xs w-full mx-4" style="background: linear-gradient(180deg, #334155 0%, #1e293b 100%);">
         <h3 class="text-xl font-bold text-white mb-5 text-center">⚙️ 设置</h3>
         <div class="space-y-3">
           <button id="switchColorBtn" class="w-full px-5 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">🎨 切换执子</button>
@@ -45,7 +45,7 @@ app.innerHTML = `
 
     <!-- 确认弹窗 -->
     <div id="confirmModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-      <div class="modal-card bg-gradient-to-b from-slate-700 to-slate-800 rounded-3xl p-6 shadow-2xl border border-white/20 max-w-sm w-full mx-4">
+      <div class="modal-card rounded-3xl p-6 shadow-2xl border border-white/20 max-w-sm w-full mx-4" style="background: linear-gradient(180deg, #334155 0%, #1e293b 100%);">
         <div class="text-center mb-5">
           <div class="text-4xl mb-3">⚠️</div>
           <h3 class="text-xl font-bold text-white mb-2">确认新游戏？</h3>
