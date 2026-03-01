@@ -46,9 +46,16 @@ h1 { color: white !important; }
   transform: none !important;
 }
 
-/* 弹窗卡片样式 */
+/* 弹窗卡片样式 - 强制实体背景 */
 .modal-card {
   animation: modalIn 0.25s ease-out;
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+#menuModal > div,
+#confirmModal > div {
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%) !important;
 }
 
 @keyframes modalIn {
