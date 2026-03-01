@@ -22,9 +22,9 @@ app.innerHTML = `
       <div class="absolute inset-0 rounded-3xl pointer-events-none border-4 border-white/10"></div>
     </div>
     
-    <div class="flex gap-3">
-      <button id="resetBtn" class="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-medium rounded-full transition-all border border-white/30 hover:border-white/50 shadow-lg">🔄 新游戏</button>
-      <button id="undoBtn" class="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-medium rounded-full transition-all border border-white/30 hover:border-white/50 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed">↩️ 悔棋</button>
+    <div class="flex gap-4">
+      <button id="resetBtn" class="px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">🔄 新游戏</button>
+      <button id="undoBtn" class="px-7 py-3 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100">↩️ 悔棋</button>
     </div>
     
     <div class="text-white/40 text-xs bg-white/5 px-4 py-1.5 rounded-full">
