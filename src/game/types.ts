@@ -1,7 +1,7 @@
 // 棋盘配置
 export const BOARD_SIZE = 8;
-export const CELL_SIZE = 70;
-export const PADDING = 30;
+export const CELL_SIZE = 80;
+export const PADDING = 35;
 
 // 玩家类型
 export const enum Player {

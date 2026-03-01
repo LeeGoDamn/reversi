@@ -36,11 +36,11 @@ body {
 }
 
 #gameCanvas.cursor-black {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="%23222" stroke="%23111" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="%23444" opacity="0.5"/></svg>') 18 18, pointer;
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="%23222" stroke="%23111" stroke-width="2"/><circle cx="14" cy="14" r="5" fill="%23444" opacity="0.5"/></svg>') 20 20, pointer;
 }
 
 #gameCanvas.cursor-white {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="%23fff" stroke="%23bbb" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="%23f5f5f5" opacity="0.8"/></svg>') 18 18, pointer;
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="%23fff" stroke="%23bbb" stroke-width="2"/><circle cx="14" cy="14" r="5" fill="%23f5f5f5" opacity="0.8"/></svg>') 20 20, pointer;
 }
 
 button {
@@ -52,16 +52,17 @@ button {
   transition: all 0.3s ease;
 }
 
-@media (max-width: 700px) {
+/* 响应式：根据屏幕宽度自适应 */
+@media (max-width: 800px) {
   #gameCanvas {
-    width: 360px !important;
-    height: 360px !important;
+    width: 400px !important;
+    height: 400px !important;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   #gameCanvas {
-    width: 320px !important;
-    height: 320px !important;
+    width: 340px !important;
+    height: 340px !important;
   }
 }

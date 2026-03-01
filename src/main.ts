@@ -10,7 +10,7 @@ app.innerHTML = `
     
     <div id="status" class="text-center text-gray-900 text-lg font-bold min-h-12 bg-gradient-to-r from-amber-100 to-amber-200 px-8 py-3 rounded-2xl shadow-lg border-2 border-amber-400">选择先后手</div>
     
-    <canvas id="gameCanvas" width="620" height="620" class="rounded-2xl shadow-2xl border-4 border-gray-700"></canvas>
+    <canvas id="gameCanvas" width="710" height="710" class="rounded-2xl shadow-2xl border-4 border-gray-700"></canvas>
     
     <div class="flex flex-wrap gap-4 justify-center mt-2">
       <button id="blackBtn" class="px-8 py-3 bg-gradient-to-br from-gray-700 to-gray-900 text-white font-bold rounded-2xl hover:from-gray-600 hover:to-gray-800 transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 border-2 border-gray-600">⚫ 执黑先手</button>

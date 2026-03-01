@@ -92,7 +92,7 @@ export class Board {
   private drawPiece(x: number, y: number, player: Player): void {
     const centerX = PADDING + x * CELL_SIZE + CELL_SIZE / 2;
     const centerY = PADDING + y * CELL_SIZE + CELL_SIZE / 2;
-    const radius = CELL_SIZE / 2 - 6;
+    const radius = CELL_SIZE / 2 - 8;
 
     const ctx = this.ctx;
     
@@ -150,7 +150,7 @@ export class Board {
   drawHover(x: number, y: number, player: Player): void {
     const centerX = PADDING + x * CELL_SIZE + CELL_SIZE / 2;
     const centerY = PADDING + y * CELL_SIZE + CELL_SIZE / 2;
-    const radius = CELL_SIZE / 2 - 6;
+    const radius = CELL_SIZE / 2 - 8;
 
     this.ctx.beginPath();
     this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
