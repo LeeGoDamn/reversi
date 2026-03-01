@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 强制覆盖文字颜色 */
+h1 { color: white !important; }
+#score { color: white !important; }
+#status { color: white !important; }
+button[id="resetBtn"], button[id="undoBtn"] { color: white !important; }
+
+/* 自定义样式 */
 * {
   margin: 0;
   padding: 0;

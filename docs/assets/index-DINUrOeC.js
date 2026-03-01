@@ -9,9 +9,9 @@ var k=Object.defineProperty;var C=(d,t,e)=>t in d?k(d,t,{enumerable:!0,configura
       </button>
     </div>
     
-    <div id="score" class="text-xl font-bold text-white bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20">⚫ 2 : 2 ⚪</div>
+    <div id="score" class="text-xl font-bold bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20">⚫ 2 : 2 ⚪</div>
     
-    <div id="status" class="text-center text-white text-base font-medium min-h-10 bg-emerald-600/90 px-6 py-2 rounded-full shadow-lg">⚫ 轮到你了</div>
+    <div id="status" class="text-center text-base font-medium min-h-10 bg-emerald-600/90 px-6 py-2 rounded-full shadow-lg">⚫ 轮到你了</div>
     
     <div class="relative">
       <canvas id="gameCanvas" width="710" height="710" class="rounded-3xl shadow-2xl"></canvas>
@@ -19,8 +19,8 @@ var k=Object.defineProperty;var C=(d,t,e)=>t in d?k(d,t,{enumerable:!0,configura
     </div>
     
     <div class="flex gap-3">
-      <button id="resetBtn" class="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium rounded-full transition-all border border-white/20 hover:border-white/30">🔄 新游戏</button>
-      <button id="undoBtn" class="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium rounded-full transition-all border border-white/20 hover:border-white/30 disabled:opacity-30 disabled:cursor-not-allowed">↩️ 悔棋</button>
+      <button id="resetBtn" class="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-medium rounded-full transition-all border border-white/30 hover:border-white/50 shadow-lg">🔄 新游戏</button>
+      <button id="undoBtn" class="px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white font-medium rounded-full transition-all border border-white/30 hover:border-white/50 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed">↩️ 悔棋</button>
     </div>
     
     <div class="text-white/40 text-xs bg-white/5 px-4 py-1.5 rounded-full">
